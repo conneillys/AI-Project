@@ -12,6 +12,8 @@ Recipe quality cap: 82400
 
 Recipe durability: 50
 
+Recipe level: 511
+
 Crafting Actions
 | Name | Progress Efficiency | Quality Efficiency | Success Rate | Notes | CP Cost |
 |------|---------------------|--------------------|--------------|-------|---------|
