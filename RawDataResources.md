@@ -6,6 +6,12 @@ Crafting system equations: https://docs.google.com/document/d/1Da48dDVPB7N4ignxG
 
 Expert craft rarity values (make copy, unhide data): https://docs.google.com/spreadsheets/d/1sxIiFIDW0D7UcNjn8kD_Vt6GzwI39CYg4K6415JrrIA/edit#gid=1475917965
 
+Recipe difficulty (progress goal): 11126
+
+Recipe quality cap: 82400
+
+Recipe durability: 50
+
 Crafting Actions
 | Name | Progress Efficiency | Quality Efficiency | Success Rate | Notes | CP Cost |
 |------|---------------------|--------------------|--------------|-------|---------|
@@ -13,21 +19,20 @@ Crafting Actions
 | Rapid Synthesis | 500% | 0% | 50% | N/A | 0 |
 | Careful Synthesis | 150% | 0% | 100% | N/A | 7 |
 | Groundwork | 300% | 0% | 100% | Durability cost is 20 instead of 10. Efficiency is 150% if current durability < cost. | 18 |
-| Intensive Synthesis | 300% | 0% | 100% | Can only be used with certain procs | 6 |
+| Intensive Synthesis | 300% | 0% | 100% | Can only be used when material condition is Good | 6 |
 | Muscle Memory | 300% | 0% | 100% | Can only be used on first turn. Increases efficiency of next synthesis by 100% (lasts 5 turns) | 6 |
 | Name of the Elements | 0% | 0% | 100% | For next 3 steps, efficiency of Brand of the Elements is increased by up to 200% dependent on current progress | 30 |
 | Brand of the Elements | 100% | 0% | 100% | N/A | 6 |
 | Veneration | 0% | 0% | 100% | Increases synthesis action efficiency by 50% for next 4 steps | 18 |
 | Final Appraisal | 0% | 0% | 100% | Next synthesis action that would complete craft leaves 1 progress remaining (lasts for 5 steps) | 1 |
 | Delicate Synthesis | 100% | 100% | 100% | N/A | 32 |
-| Basic Touch | 0% | 100% | 100% | If IQ is up, increase stacks by 1 | 18 |
-| Hasty Touch | 0% | 100% | 60% | If IQ is up, increase stacks by 1 | 0 |
-| Standard Touch | 0% | 125% | 100% | If IQ is up, increase stacks by 1 | 32 |
-| Preparatory Touch | 0% | 200% | 100% | Increases IQ stacks by 2 if it is up. Durability cost is 20 instead of 10 | 40 |
-| Precise Touch | 0% | 150% | 100% | Increases IQ stacks by 2 if it is up. Can only be used with certain procs | 18 |
+| Basic Touch | 0% | 100% | 100% | N/A | 18 |
+| Hasty Touch | 0% | 100% | 60% | N/A | 0 |
+| Standard Touch | 0% | 125% | 100% | N/A | 32 |
+| Preparatory Touch | 0% | 200% | 100% | Gives an extra IQ stack. Durability cost is 20 instead of 10 | 40 |
+| Precise Touch | 0% | 150% | 100% | Gives an extra IQ stack. Can only be used when material condition is Good | 18 |
 | Patient Touch | 0% | 100% | 50% | Doubles IQ stacks if successful, halves them if it fails | 6 |
 | Prudent Touch | 0% | 100% | 100% | Increases quality for half durability cost (not usable when either Waste Not buff is active) | 25 |
-| Trained Eye | 0% | Full | 100% | Can only be used on first turn when recipe level is at least 10 lower than your own. | 250 |
 | Reflect | 0% | 100% | 100% | Can only be used on first turn. Grants 3 IQ stacks | 24 |
 | Byregot's Blessing | 0% | 100%+ (see buff) | 100% | Gains 20% quality efficiency for each IQ stack (additive); consumes stacks | 24 |
 | Great Strides | 0% | 0% | 100% | Increases next Touch action (lasts 3 steps) | 32 |
@@ -36,12 +41,14 @@ Crafting Actions
 | Observe | 0% | 0% | 100% | Does nothing for one step | 7 |
 | Focused Synthesis | 200% | 0% | 50% | Accuracy increased to 100% if used directly after Observe | 5 |
 | Focused Touch | 0% | 150% | 50% | Accuracy increased to 100% if used directly after Observe | 18 |
-| Tricks of the Trade | 0% | 0% | 100% | Restores CP by 20 under certain material conditions | 0 |
+| Tricks of the Trade | 0% | 0% | 100% | Restores CP by 20. Can only be used when material condition is Good | 0 |
 | Waste Not | 0% | 0% | 100% | Cuts durability loss in half for the next 4 steps | 56 |
 | Waste Not II | 0% | 0% | 100% | Cuts durability loss in half for the next 8 steps | 98 |
 | Master's Mend | 0% | 0% | 100% | Restores durability by 30 (cannot overcap) | 88 |
 | Manipulation | 0% | 0% | 100% | Restores 5 durability after each step for the next 8 steps | 96 |
 
-Recipe difficulty (progress goal): 11126
-Recipe quality cap: 82400
-
+Notes:
+- Did not include Trained Eye. It is not possible to use on expert crafts, as they are level 80.
+- Anything that affects "touch" actions also affects Byregot's Blessing and the quality increase on Delicate Synthesis.
+- Anything that can be used on a Good can also be used on an Excellent, but Excellent and Poor procs do not exist in expert crafts.
+- Base durability cost is 10.
