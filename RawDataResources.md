@@ -14,6 +14,14 @@ Recipe durability: 50
 
 Recipe level: 511
 
+5800 collectability -> 175 skyward pts
+
+Lowest tier equation: score = ? * (collectability - 5800) + 175 for 5800 <= x <= 6499
+
+Mid tier equation: 0.45 * (collectability - 6500) + 370 for 6500 <= x <= 7699
+
+Max tier equation: 0.3 * (collectability - 7700) + 1100 for 7700 <= x <= 8240
+
 Crafting Actions
 | Name | Progress Efficiency | Quality Efficiency | Success Rate | Notes | CP Cost |
 |------|---------------------|--------------------|--------------|-------|---------|
