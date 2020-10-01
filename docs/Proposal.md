@@ -23,7 +23,7 @@ I know this won't render on GH right, but I can render the graph and upload as a
     In case you are not familiar, this is graphviz [dot](https://graphviz.org/about/)
  -->
 
-```graphviz
+<!-- ```graphviz
 digraph {
     rankdir=LR
 
@@ -41,7 +41,9 @@ digraph {
     Is_Craft_Failed -> End [label="yes"]
     Is_Craft_Failed -> Select_Action [label="no"]
 }
-```
+``` -->
+
+![Problem](img/State.png)
 
 ### State Space
 
