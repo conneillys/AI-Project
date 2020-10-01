@@ -164,6 +164,7 @@ Once we have a working AI, we can start preforming test runs compared against ot
 
 ## References
 
+<!-- https://ieeexplore-ieee-org.umasslowell.idm.oclc.org/document/5066768 -->
 [^1] F. Takano, Y. Maekawa and H. Kasahara, "Multiple-Paths Search with Concurrent Thread Scheduling for Fast AND/OR Tree Search," 2009 International Conference on Complex, Intelligent and Software Intensive Systems, Fukuoka, 2009, pp. 51-58, doi: 10.1109/CISIS.2009.65.
 
 <!-- TODO Find these -->
