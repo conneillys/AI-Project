@@ -143,9 +143,9 @@ The following are stretch goals and may or may not be in the final project due t
     Whats the best way of defining success? Total 'value' of a craft? Simulated craft score in a leader-board? 
  -->
 
-An individual craft can be *scored* based off of the final craft quality and the number of steps it takes to get to that result, and if the craft fails the score will be 0.
+An individual craft can be *scored* based off of the final craft quality and the number of steps it takes to get to that result, and if the craft fails the score will be 0. The formula we will use is the score yielded by the result divided by the number of steps it took to get to that result (which will be 0 if the craft breaks or does not meet the minimum quality threshold).
 
-To validate if our AI is playing the game well enough, we can compare the score of our simulated craft to [the official leader-boards for crafts](https://na.finalfantasyxiv.com/lodestone/ishgardian_restoration/ranking/patch53/carpenter), as well as preform some qualitative testing in game.
+To validate if our AI is playing the game well enough, we can compare the score of our simulated craft to [the official leader-boards for crafts](https://na.finalfantasyxiv.com/lodestone/ishgardian_restoration/ranking/patch53/carpenter), as well as perform some qualitative testing in game. If we get to the point where we can simulate crafting for the same amount of time competitors did, we can compare the score of our AI to the scores of top players directly instead of extrapolating.
 
 ## Schedule
 
