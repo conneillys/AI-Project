@@ -52,7 +52,18 @@ digraph {
 | Durability | 11 |
 | Progress | 11126 |
 | Quality | 82400 |
-<!-- TODO: Add buffs -->
+| Buff - Inner Quiet | 11 |
+| Buff - Waste Not I/II | 8 |
+| Buff - Manipulation | 8 |
+| Buff - Innovation | 4 |
+| Buff - Veneration | 4 |
+| Buff - Name of the Elements | 3 |
+| Buff - Final Appraisal | 5 |
+| Buff - Great Strides | 3 |
+| Buff - Muscle Memory | 5 |
+| Buff - Observe | 2 |
+
+Which results in `146,194,199,352,115,200,000` or 146 Quintillion possible states.
 
 ### State Transition
 
