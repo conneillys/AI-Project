@@ -34,7 +34,6 @@ digraph {
     Is_Craft_Complete -> Is_Craft_Failed [label="no"]
     Is_Craft_Failed -> End [label="yes"]
     Is_Craft_Failed -> Select_Action [label="no"]
-
 }
 ```
 
@@ -94,17 +93,34 @@ digraph {
     -  Buffs and affects
  -->
 
+ Thankfully, since the game we are playing is from an MMO Game, the community has procured all of the required data entries for each Item, Action, and Buff can readily be accessed  at [here](https://docs.google.com/document/d/1Da48dDVPB7N4ignxGeo0UeJ_6R0kQRqzLUH-TkpSQRc/edit) and [here](https://docs.google.com/spreadsheets/d/1sxIiFIDW0D7UcNjn8kD_Vt6GzwI39CYg4K6415JrrIA/edit#gid=1475917965). We can take this data, with some additional annotations and use it to accurately simulate the crafting mini-game, and if were stream-line the sanitizing of this data, our simulator can be easily updated for future version of the game and more refined datasets.
+
 ## Deliverable
 
 <!-- 
     Will the project have a GUI?
  -->
 
+ The final deliverable project will contain at least the following:
+
+1. An expert crafting simulator that is as accurate as possible to the real game.
+2. An AI that can play a single round of expert crafting.
+3. A refined dataset that can be updated easily and refined based on public/community data.
+
+The following are stretch goals and may or may not be in the final project due to scope or time constraints:
+
+1. An AI that plays set number of crafts over a set number of simulated time-frames that can be compared to the public leader-boards.
+2. A GUI describing the AI search tree and allow for a user to follow contingencies for chance based actions to still achieve high scoring crafts
+
 ## Evaluation
 
 <!-- 
-    Whats the best way of defining success? Total 'value' of a craft? Simulated craft score in a leaderboard? 
+    Whats the best way of defining success? Total 'value' of a craft? Simulated craft score in a leader-board? 
  -->
+
+An individual craft can be *scored* based off of the final craft quality and the number of steps it takes to get to that result, and if the craft fails the score will be 0.
+
+To validate if our AI is playing the game well enough, we can compare the score of our simulated craft to [the official leader-boards for crafts](https://na.finalfantasyxiv.com/lodestone/ishgardian_restoration/ranking/patch53/carpenter), as well as preform some qualitative testing in game.
 
 ## Schedule
 
@@ -121,6 +137,10 @@ digraph {
         - How can we tweak/tune the bot to be better
         - Depending on the AI Core tech, this can be a genetic algorithm to tune magic values and modifiers in heuristics
  -->
+
+The first problem that needs to be tackled is processing, sanitizing, and categorizing the community data sources to create a singular database of all possible actions, buffs, and calculations that exist in the game. After this is complete work and be started on the simulator, which will take a starting environment, and allow an agent to preform actions until the craft is complete. Only after both of these things can we start in earnest in creating an AI to play the simulated crating game.
+
+Once we have a working AI, we can start preforming test runs compared against other players scores and optimizing to achieve the highest scores possible.
 
 ## References
 
