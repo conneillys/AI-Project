@@ -43,6 +43,7 @@ digraph {
     All possible combinations of skills in a semi fixed depth. 
 
     Can we calculate this fixed number of actions that can be attempted?
+
 -->
 
 ### State Transition
@@ -79,6 +80,8 @@ digraph {
     The game State is Dynamic since things like the %Chance affects of a action can be modified outside of your control and between actions
 
  -->
+ 
+ The crafting environment in Final Fantasy XIV is fully observable, so it follows that the AI's environment will be fully observable. The AI is the only agent operating on the environment, so it is a single-agent environment. The environment is stochastic: each step, there is a random chance for materials to take on a particular quality, which applies multipliers to the action the AI can take. Additionally, there are some actions which have a chance to fail. Each state's actions are affected by previous actions taken by the AI, so the environment is sequential. The game is turn-based, and there are no changes between percepts, so the environment is static. Every value is represented as an integer, so the environment is discrete.
 
 ## Dataset
 
