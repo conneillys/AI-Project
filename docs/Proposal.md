@@ -71,6 +71,10 @@ digraph {
 
     Could we collect all of the above to a numeric score that we can use genetic learning to tone to a 'correct' evaluation?
  -->
+ 
+ Any states where Durability has a value of zero and either the value of Progress is less than 11126 or the value of Quality is less than 58000 are failure states. Any states where the Progress is 11126 and the Quality is less than 58000 is also a failure state.
+ 
+ Our heuristic will calculate state values by calculating the percentage of the maximum by which they would increase Progress or Quality, then divide that result by the Durability consumed plus proportion of the CP cost to max CP. As an equation: (progressGained/maxProgress)/(durabilityCost + cpCost/cpMax)
 
 ### Characteristics
 
