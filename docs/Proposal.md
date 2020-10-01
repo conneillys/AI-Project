@@ -45,6 +45,15 @@ digraph {
     Can we calculate this fixed number of actions that can be attempted?
 -->
 
+| Attribute | Max value |
+|-----------|-----------|
+| Material Status | 5 |
+| CP | 572 |
+| Durability | 11 |
+| Progress | 11126 |
+| Quality | 82400 |
+<!-- TODO: Add buffs -->
+
 ### State Transition
 
 <!-- 
@@ -93,7 +102,7 @@ digraph {
     -  Buffs and affects
  -->
 
- Thankfully, since the game we are playing is from an MMO Game, the community has procured all of the required data entries for each Item, Action, and Buff can readily be accessed  at [here](https://docs.google.com/document/d/1Da48dDVPB7N4ignxGeo0UeJ_6R0kQRqzLUH-TkpSQRc/edit) and [here](https://docs.google.com/spreadsheets/d/1sxIiFIDW0D7UcNjn8kD_Vt6GzwI39CYg4K6415JrrIA/edit#gid=1475917965). We can take this data, with some additional annotations and use it to accurately simulate the crafting mini-game, and if were stream-line the sanitizing of this data, our simulator can be easily updated for future version of the game and more refined datasets.
+ Thankfully, since the game we are playing is from an MMO Game, the community has procured all of the required data entries for each Item, Action, and Buff can readily be accessed  at [here](https://docs.google.com/document/d/1Da48dDVPB7N4ignxGeo0UeJ_6R0kQRqzLUH-TkpSQRc/edit) and [here](https://docs.google.com/spreadsheets/d/1sxIiFIDW0D7UcNjn8kD_Vt6GzwI39CYg4K6415JrrIA/edit#gid=1475917965). We can take this data, with some additional annotations and use it to accurately simulate the crafting mini-game, and if were stream-line the sanitizing of this data, our simulator can be easily updated for future versions of the game and more refined datasets.
 
 ## Deliverable
 
@@ -143,5 +152,7 @@ The first problem that needs to be tackled is processing, sanitizing, and catego
 Once we have a working AI, we can start preforming test runs compared against other players scores and optimizing to achieve the highest scores possible.
 
 ## References
+
+[^1] F. Takano, Y. Maekawa and H. Kasahara, "Multiple-Paths Search with Concurrent Thread Scheduling for Fast AND/OR Tree Search," 2009 International Conference on Complex, Intelligent and Software Intensive Systems, Fukuoka, 2009, pp. 51-58, doi: 10.1109/CISIS.2009.65.
 
 <!-- TODO Find these -->
