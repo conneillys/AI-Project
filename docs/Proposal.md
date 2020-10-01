@@ -73,6 +73,8 @@ Which results in `146,194,199,352,115,200,000` or 146 Quintillion possible state
     Some actions have a chance of success.
 -->
 
+During each turn of a craft, one action is preformed until the craft is either complete or failed. Currently there are 30 actions available, consisting of actions that primarily increase Progress, actions that primarily increase Quality, and Buff actions which provide multi-turn effects. Most actions consume CP to preform, which means that most `paths` to solutions will have a fairly fixed depth.
+
 ### State Evaluation
 
 <!-- Define a heuristic:
@@ -113,7 +115,7 @@ Which results in `146,194,199,352,115,200,000` or 146 Quintillion possible state
     -  Buffs and affects
  -->
 
- Thankfully, since the game we are playing is from an MMO Game, the community has procured all of the required data entries for each Item, Action, and Buff can readily be accessed  at [here](https://docs.google.com/document/d/1Da48dDVPB7N4ignxGeo0UeJ_6R0kQRqzLUH-TkpSQRc/edit) and [here](https://docs.google.com/spreadsheets/d/1sxIiFIDW0D7UcNjn8kD_Vt6GzwI39CYg4K6415JrrIA/edit#gid=1475917965). We can take this data, with some additional annotations and use it to accurately simulate the crafting mini-game, and if were stream-line the sanitizing of this data, our simulator can be easily updated for future versions of the game and more refined datasets.
+ Thankfully, since the game the AI is playing is from an MMO Game, the community has procured all of the required data entries for each Item, Action, and Buff can readily be accessed at [here](https://docs.google.com/document/d/1Da48dDVPB7N4ignxGeo0UeJ_6R0kQRqzLUH-TkpSQRc/edit) and [here](https://docs.google.com/spreadsheets/d/1sxIiFIDW0D7UcNjn8kD_Vt6GzwI39CYg4K6415JrrIA/edit#gid=1475917965). We can take this data, with some additional annotations and use it to accurately simulate the crafting mini-game, and if were stream-line the sanitizing of this data, our simulator can be easily updated for future versions of the game and more refined datasets.
 
 ## Deliverable
 
