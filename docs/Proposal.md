@@ -9,6 +9,12 @@
 
 ## Problem Statement
 
+Final Fantasy XIV is a massively multiplayer online game developed by Square Enix. As part of its gameplay, players can craft items. They do this by using skills to increase the item's quality and to make progress toward its completion. This system is popular enough and has enough depth that they have recently created a form of "competitive" crafting.
+
+The crafts that players synthesize for this purpose are called "expert crafts." They are much more difficult than normal crafts, have a modified set of rules, and can only be synthesized for the purpose of competition. Players must increase the craft's quality to a minimum value and complete the craft without breaking it, or the item is worthless. Competitors have ten days to get as many points as possible.
+
+Our goal is to simulate the expert crafting environment and to create an AI that will find the most effective way to complete these crafts. By training the AI, we may be able to identify common ways that it handles certain scenarios effectively.
+
 ## Problem Analysis
 
 <!-- 
