@@ -96,7 +96,10 @@ During each turn of a craft, one action is preformed until the craft is either c
  
  Any states where Durability has a value of zero and either the value of Progress is less than 11126 or the value of Quality is less than 58000 are failure states. Any states where the Progress is 11126 and the Quality is less than 58000 is also a failure state.
  
- Our heuristic will calculate state values by calculating the percentage of the maximum by which they would increase Progress or Quality, then divide that result by the Durability consumed plus proportion of the CP cost to max CP. As an equation: (progressGained/maxProgress)/(durabilityCost + cpCost/cpMax)
+ Our heuristic will calculate state values by calculating the percentage of the maximum by which they would increase Progress or Quality, then divide that result by the Durability consumed plus proportion of the CP cost to max CP. As an equation: ![\begin{align*}
+h(s) &= \frac{\frac{progressGained}{totalProgress}}{durabilityCost + \frac{cpCost}{cpTotal}}
+\end{align*}
+](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+%5Cbegin%7Balign%2A%7D%0Ah%28s%29+%26%3D+%5Cfrac%7B%5Cfrac%7BprogressGained%7D%7BtotalProgress%7D%7D%7BdurabilityCost+%2B+%5Cfrac%7BcpCost%7D%7BcpTotal%7D%7D%0A%5Cend%7Balign%2A%7D%0A)
 
 ### Characteristics
 
