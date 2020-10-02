@@ -1,4 +1,4 @@
-# Proposal - Developing Strategies for Expert Crafting in Final Fantasy XIV
+# Developing Strategies for Expert Crafting in Final Fantasy XIV - Proposal
 
 ## Authors
 
@@ -93,10 +93,11 @@ During each turn of a craft, one action is preformed until the craft is either c
 
     Could we collect all of the above to a numeric score that we can use genetic learning to tone to a 'correct' evaluation?
  -->
- 
- Any states where Durability has a value of zero and either the value of Progress is less than 11126 or the value of Quality is less than 58000 are failure states. Any states where the Progress is 11126 and the Quality is less than 58000 is also a failure state.
- 
- Our heuristic will calculate state values by calculating the percentage of the maximum by which they would increase Progress or Quality, then divide that result by the Durability consumed plus proportion of the CP cost to max CP. As an equation: ![\begin{align*}
+
+Any states where Durability has a value of zero and either the value of Progress is less than 11126 or the value of Quality is less than 58000 are failure states. Any states where the Progress is 11126 and the Quality is less than 58000 is also a failure state.
+
+Our heuristic will calculate state values by calculating the percentage of the maximum by which they would increase Progress or Quality, then divide that result by the Durability consumed plus proportion of the CP cost to max CP. As an equation:
+![\begin{align*}
 h(s) &= \frac{\frac{progressGained}{totalProgress}}{durabilityCost + \frac{cpCost}{cpTotal}}
 \end{align*}
 ](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle+%5Cbegin%7Balign%2A%7D%0Ah%28s%29+%26%3D+%5Cfrac%7B%5Cfrac%7BprogressGained%7D%7BtotalProgress%7D%7D%7BdurabilityCost+%2B+%5Cfrac%7BcpCost%7D%7BcpTotal%7D%7D%0A%5Cend%7Balign%2A%7D%0A)
@@ -115,8 +116,8 @@ h(s) &= \frac{\frac{progressGained}{totalProgress}}{durabilityCost + \frac{cpCos
     The game State is Dynamic since things like the %Chance affects of a action can be modified outside of your control and between actions
 
  -->
- 
- The crafting environment in Final Fantasy XIV is fully observable, so it follows that the AI's environment will be fully observable. The AI is the only agent operating on the environment, so it is a single-agent environment. The environment is stochastic: each step, there is a random chance for materials to take on a particular quality, which applies multipliers to the actions the AI can take. Additionally, there are some actions which have a chance to fail. Each state's actions are affected by previous actions taken by the AI, so the environment is sequential. The game is turn-based, and there are no changes between percepts, so the environment is static. Every value is represented as an integer, so the environment is discrete.
+
+The crafting environment in Final Fantasy XIV is fully observable, so it follows that the AI's environment will be fully observable. The AI is the only agent operating on the environment, so it is a single-agent environment. The environment is stochastic: each step, there is a random chance for materials to take on a particular quality, which applies multipliers to the actions the AI can take. Additionally, there are some actions which have a chance to fail. Each state's actions are affected by previous actions taken by the AI, so the environment is sequential. The game is turn-based, and there are no changes between percepts, so the environment is static. Every value is represented as an integer, so the environment is discrete.
 
 ## Dataset
 
@@ -131,7 +132,7 @@ h(s) &= \frac{\frac{progressGained}{totalProgress}}{durabilityCost + \frac{cpCos
     -  Buffs and affects
  -->
 
- Thankfully, since the game the AI is playing is from an MMO Game, the community has procured all of the required data entries for each Item, Action, and Buff can readily be accessed at [here](https://docs.google.com/document/d/1Da48dDVPB7N4ignxGeo0UeJ_6R0kQRqzLUH-TkpSQRc/edit) and [here](https://docs.google.com/spreadsheets/d/1sxIiFIDW0D7UcNjn8kD_Vt6GzwI39CYg4K6415JrrIA/edit#gid=1475917965). We can take this data, with some additional annotations and use it to accurately simulate the crafting mini-game, and if were stream-line the sanitizing of this data, our simulator can be easily updated for future versions of the game and more refined datasets.
+Thankfully, since the game the AI is playing is from an MMO Game, the community has procured all of the required data entries for each Item, Action, and Buff can readily be accessed at [here](https://docs.google.com/document/d/1Da48dDVPB7N4ignxGeo0UeJ_6R0kQRqzLUH-TkpSQRc/edit) and [here](https://docs.google.com/spreadsheets/d/1sxIiFIDW0D7UcNjn8kD_Vt6GzwI39CYg4K6415JrrIA/edit#gid=1475917965). We can take this data, with some additional annotations and use it to accurately simulate the crafting mini-game, and if were stream-line the sanitizing of this data, our simulator can be easily updated for future versions of the game and more refined datasets.
 
 ## Deliverable
 

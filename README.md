@@ -1,6 +1,4 @@
-# [PROJECT_NAME]
-
-<!-- TODO: PROJECT_NAME -->
+# Developing Strategies for Expert Crafting in Final Fantasy XIV
 
 ## Authors
 
