@@ -1,6 +1,4 @@
-# Proposal - [PROJECT_NAME]
-
-<!-- TODO: PROJECT_NAME -->
+# Proposal - Developing Strategies for Expert Crafting in Final Fantasy XIV
 
 ## Authors
 
