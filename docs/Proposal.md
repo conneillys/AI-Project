@@ -80,7 +80,9 @@ Which results in `146,194,199,352,115,200,000` or 146 Quintillion possible state
     Some actions have a chance of success.
 -->
 
-During each turn of a craft, one action is preformed until the craft is either complete or failed. Currently there are 30 actions available, consisting of actions that primarily increase Progress, actions that primarily increase Quality, and Buff actions which provide multi-turn effects. Most actions consume CP to preform, which means that most `paths` to solutions will have a fairly fixed depth. Of these 30 actions, some have prerequisites that will remove them from consideration while simulating.
+During each turn of a craft, one action is performed until the craft is either complete or failed. Currently there are 30 actions available, consisting of actions that primarily increase Progress, actions that primarily increase Quality, and Buff actions which provide multi-turn effects. Most actions consume CP to perform, which means that most `paths` to solutions will have a fairly fixed depth. Of these 30 actions, some have prerequisites that will remove them from consideration while simulating.
+
+The process of calculating the effects of each action on the environment will be carried out on each member of the population in our genetic algorithm. This is necessary because the environment is sequential, and changing even one action will have a ripple effect.
 
 ### State Evaluation
 
@@ -177,9 +179,11 @@ To validate if our AI is playing the game well enough, we can compare the score 
         - Depending on the AI Core tech, this can be a genetic algorithm to tune magic values and modifiers in heuristics
  -->
 
-The first problem that needs to be tackled is processing, sanitizing, and categorizing the community data sources to create a singular database of all possible actions, buffs, and calculations that exist in the game. After this is complete work and be started on the simulator, which will take a starting environment, and allow an agent to preform actions until the craft is complete. Only after both of these things can we start in earnest in creating an AI to play the simulated crating game.
+The first problem that needs to be tackled is processing, sanitizing, and categorizing the community data sources to create a singular database of all possible actions, buffs, and calculations that exist in the game. After this is complete, work can be started on the simulator, which will take a starting environment, and allow an agent to perform actions until the craft is complete. The data should be done being aggregated and we should have a fair amount of the simulation environment done by November 16.
 
-Once we have a working AI, we can start preforming test runs compared against other players scores and optimizing to achieve the highest scores possible.
+After we have finished the simulation environment, we can implement our AI. We will develop a genetic algorithm and heuristics to create sequences of actions as genomes, evaluate their fitness, and use mutations and crossover to come up with an acceptable sequence of actions. This should be done by November 30.
+
+Once we have a working AI, we can start performing test runs compared against other players' scores and optimizing to achieve the highest scores possible. We should have these metrics by December 8.
 
 ## References
 
