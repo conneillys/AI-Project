@@ -138,7 +138,7 @@ Thankfully, since the game the AI is playing is from an MMO Game, the community 
 
 ## Implementation Strategy
 
-By treating this problem as a Fuzzy Constraint Satisfaction Problem [^2], we can approach this using a genetic algorithm [^1]. We will generate some population of sequences of actions, and will preform selection, mutation and crossover on these until the best solution appears to have converged. To prevent problems with local maxima, we may have a larger mutation rate, or allow for multiple steps of  mutations to take place at a single time. Due to the calculation of the heuristic being read-only on global state data, we can maximize the multi-threaded-ness of the algorithm to maximize performance.
+By treating this problem as a Fuzzy Constraint Satisfaction Problem [^2], we can approach this using a genetic algorithm [^1]. We will generate some population of sequences of actions, and will preform selection, mutation and crossover on these until the best solution appears to have converged. To prevent problems with local maxima, we may have a larger mutation rate, or allow for multiple steps of  mutations to take place at a single time. We might also be able to treat dominating sequences as elites [^3] and keep them in an external population to add more variation to the population. Due to the calculation of the heuristic being read-only on global state data, we can maximize the multi-threaded-ness of the algorithm to maximize performance.
 
 ## Deliverable
 
@@ -197,3 +197,5 @@ Once we have a working AI, we can start performing test runs compared against ot
 <!-- https://ieeexplore-ieee-org.umasslowell.idm.oclc.org/document/343640 -->
 [^2]: Z. Ruttkay, "Fuzzy constraint satisfaction," Proceedings of 1994 IEEE 3rd International Fuzzy Systems Conference, Orlando, FL, 1994, pp. 1263-1268 vol.2, doi: 10.1109/FUZZY.1994.343640.
 
+<!-- https://www.sciencedirect.com/science/article/pii/S0142061510000190 -->
+[^3]: M. Sailaja Kumari, Sydulu Maheswarapu, "Enhanced Genetic Algorithm based computation technique for multi-objective Optimal Power Flow solution," International Journal of Electrical Power & Energy Systems, Volume 32, Issue 6, 2010, pp. 736-742, ISSN 0142-0615, doi: 10.1016/j.ijepes.2010.01.010.
