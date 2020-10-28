@@ -136,6 +136,10 @@ The crafting environment in Final Fantasy XIV is fully observable, so it follows
 
 Thankfully, since the game the AI is playing is from an MMO Game, the community has procured all of the required data entries for each Item, Action, and Buff can readily be accessed at [here](https://docs.google.com/document/d/1Da48dDVPB7N4ignxGeo0UeJ_6R0kQRqzLUH-TkpSQRc/edit) and [here](https://docs.google.com/spreadsheets/d/1sxIiFIDW0D7UcNjn8kD_Vt6GzwI39CYg4K6415JrrIA/edit#gid=1475917965). We can take this data, with some additional annotations and use it to accurately simulate the crafting mini-game, and if were stream-line the sanitizing of this data, our simulator can be easily updated for future versions of the game and more refined datasets.
 
+## Implementation Strategy
+
+By treating this problem as a Fuzzy Constraint Satisfaction Problem [^2], we can approach this using a genetic algorithm [^1]. We will generate some population of sequences of actions, and will preform selection, mutation and crossover on these until the best solution appears to have converged. To prevent problems with local maxima, we may have a larger mutation rate, or allow for multiple steps of  mutations to take place at a single time. Due to the calculation of the heuristic being read-only on global state data, we can maximize the multi-threaded-ness of the algorithm to maximize performance.
+
 ## Deliverable
 
 <!-- 
@@ -185,9 +189,11 @@ After we have finished the simulation environment, we can implement our AI. We w
 
 Once we have a working AI, we can start performing test runs compared against other players' scores and optimizing to achieve the highest scores possible. We should have these metrics by December 8.
 
-## References
+<!-- ## References -->
 
-<!-- https://ieeexplore-ieee-org.umasslowell.idm.oclc.org/document/5066768 -->
-[^1] F. Takano, Y. Maekawa and H. Kasahara, "Multiple-Paths Search with Concurrent Thread Scheduling for Fast AND/OR Tree Search," 2009 International Conference on Complex, Intelligent and Software Intensive Systems, Fukuoka, 2009, pp. 51-58, doi: 10.1109/CISIS.2009.65.
+<!-- https://ieeexplore-ieee-org.umasslowell.idm.oclc.org/document/700147 -->
+[^1]: R. Kowalczyk, "On solving fuzzy constraint satisfaction problems with genetic algorithms," 1998 IEEE International Conference on Evolutionary Computation Proceedings. IEEE World Congress on Computational Intelligence (Cat. No.98TH8360), Anchorage, AK, USA, 1998, pp. 758-762, doi: 10.1109/ICEC.1998.700147.
 
-<!-- TODO Find these -->
+<!-- https://ieeexplore-ieee-org.umasslowell.idm.oclc.org/document/343640 -->
+[^2]: Z. Ruttkay, "Fuzzy constraint satisfaction," Proceedings of 1994 IEEE 3rd International Fuzzy Systems Conference, Orlando, FL, 1994, pp. 1263-1268 vol.2, doi: 10.1109/FUZZY.1994.343640.
+
