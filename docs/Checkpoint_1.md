@@ -17,4 +17,4 @@ By the time we submit our project, we should have a refined algorithm and heuris
 
 ## Code
 
-Github Repository (Checkpoint 1 snapshot branch): github.com/Carlton-Perkins/COMP4200-AI-Project/tree/checkpoint-1-snapshot  !! UPDATE WITH ACTUAL URL ONCE WE HAVE MADE THE BRANCH !!
+Github Repository (Checkpoint 1 snapshot): [checkpoint-1](https://github.com/Carlton-Perkins/COMP4200-AI-Project/releases/tag/checkpoint-1)
