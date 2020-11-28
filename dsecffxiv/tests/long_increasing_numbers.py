@@ -76,25 +76,25 @@ def crossover_individuals(selection: List[Tuple[Individual, Individual]]) -> Pop
     """Given a list of pairs of individuals, cross them over."""
     result_collection = list()
     for each in selection:
-        new_left, new_right = crossover_individual_pairs(each[0], each[1])
-        result_collection.append(new_left)
-        result_collection.append(new_right)
+        _new_left, _new_right = crossover_individual_pairs(each[0], each[1])
+        result_collection.append(_new_left)
+        result_collection.append(_new_right)
     return result_collection
 
 
-def crossover_individual_pairs(left: Individual, right: Individual) -> Tuple[Individual, Individual]:
+def crossover_individual_pairs(_left: Individual, _right: Individual) -> Tuple[Individual, Individual]:
     """Give two individuals, merge them into children."""
-    left_slice_point = (len(left.value)//2)
-    left_first = left.value[slice(0, left_slice_point)]
-    left_last = left.value[slice(left_slice_point, len(left.value))]
+    left_slice_point = (len(_left.value)//2)
+    left_first = _left.value[slice(0, left_slice_point)]
+    left_last = _left.value[slice(left_slice_point, len(_left.value))]
 
-    right_slice_point = (len(right.value)//2)
-    right_first = right.value[slice(0, right_slice_point)]
-    right_last = right.value[slice(right_slice_point, len(right.value))]
+    right_slice_point = (len(_right.value)//2)
+    right_first = _right.value[slice(0, right_slice_point)]
+    right_last = _right.value[slice(right_slice_point, len(_right.value))]
 
-    new_left = Individual(left_first + right_last)
-    new_right = Individual(right_first + left_last)
-    return (new_left, new_right)
+    _new_left = Individual(left_first + right_last)
+    _new_right = Individual(right_first + left_last)
+    return (_new_left, _new_right)
 
 
 def score_individual(indiv: Individual) -> int:
@@ -155,8 +155,8 @@ def print_leaderboard(leaderboard_pop: Population, size=5) -> None:
 
 def crossover_n_point(parents: Tuple[Individual, Individual], crossover_points: int) -> Tuple[Individual, Individual]:
     """Splice together two parents to make two children using n point crossover."""
-    left, right = parents
-    size = len(left.value)
+    _left, _right = parents
+    size = len(_left.value)
     points = list()
     for _ in range(crossover_points):
         new_point = randint(0, size)
@@ -165,7 +165,7 @@ def crossover_n_point(parents: Tuple[Individual, Individual], crossover_points: 
         points.append(new_point)
     points.sort()
 
-    new_left, new_right = list(), list()
+    _new_left, _new_right = list(), list()
     pick_direction = False
 
     for i in range(size):
@@ -173,13 +173,13 @@ def crossover_n_point(parents: Tuple[Individual, Individual], crossover_points: 
             pick_direction = not pick_direction
 
         if pick_direction:
-            new_left.append(left.value[i])
-            new_right.append(right.value[i])
+            _new_left.append(_left.value[i])
+            _new_right.append(_right.value[i])
         else:
-            new_left.append(right.value[i])
-            new_right.append(left.value[i])
+            _new_left.append(_right.value[i])
+            _new_right.append(_left.value[i])
 
-    return (Individual(new_left), Individual(new_right))
+    return (Individual(_new_left), Individual(_new_right))
 
 
 def selection_tournament(_population: Population, tournament_size: int) -> Individual:
@@ -188,10 +188,17 @@ def selection_tournament(_population: Population, tournament_size: int) -> Indiv
 
     for _ in range(tournament_size):
         # ? Should we allow duplicates in the selection pool?
-        tournament_pool.append(_population[randint(0, len(_population))])
+        tournament_pool.append(_population[randint(0, len(_population)-1)])
 
     sort_population_by_score(tournament_pool)
     return tournament_pool[0]
+
+
+def mutate_each(_indiv: Individual, percent_chance: float, domain: Domain):
+    """Iterate over all values in the indiv and possibly mutate them."""
+    for i in range(len(_indiv.value)):
+        if chance(percent_chance):
+            _indiv.value[i] = new_value_from_domain(domain)
 
 
 if __name__ == "__main__":
@@ -199,8 +206,9 @@ if __name__ == "__main__":
     GENERATION_LIMIT = 100000
     SIZE = 100
     DOMAIN = list(range(1, SIZE+1))
-    SELECTION_PAIR_SIZE = 50
-    MUTATION_CHANCE = 0.35
+    SELECTION_PAIR_SIZE = 10
+    TOURNAMENT_SIZE = 50
+    MUTATION_CHANCE = 0.005
 
     # Generation initial population
     population = generate_new_population(POPULATION_SIZE, DOMAIN, SIZE)
@@ -213,22 +221,35 @@ if __name__ == "__main__":
     try:
         for generation in tqdm(range(0, GENERATION_LIMIT + 1), unit='Generation', desc='Simulating'):
             sort_population_by_score(population)
-            culled_population = cull_population(
+            population = cull_population(
                 population, POPULATION_SIZE)
 
-            population_history.append(culled_population)
+            population_history.append(population)
 
-            selected_population = select_individuals(
-                culled_population, SELECTION_PAIR_SIZE)
+            children = list()
+            for selection_pair in range(SELECTION_PAIR_SIZE):
+                left = selection_tournament(population, TOURNAMENT_SIZE)
+                right = selection_tournament(population, TOURNAMENT_SIZE)
 
-            crossed_over_population = crossover_individuals(
-                selected_population)
+                new_left, new_right = crossover_n_point((left, right), 5)
 
-            for each_indiv in crossed_over_population:
-                if chance(MUTATION_CHANCE):
-                    mutate_individual(each_indiv, DOMAIN)
+                mutate_each(new_left, MUTATION_CHANCE, DOMAIN)
+                mutate_each(new_right, MUTATION_CHANCE, DOMAIN)
 
-            population = culled_population + crossed_over_population
+                children.append(new_left)
+                children.append(new_right)
+            population = population + children
+            # selected_population = select_individuals(
+            #     culled_population, SELECTION_PAIR_SIZE)
+
+            # crossed_over_population = crossover_individuals(
+            #     selected_population)
+
+            # for each_indiv in crossed_over_population:
+            #     if chance(MUTATION_CHANCE):
+            #         mutate_individual(each_indiv, DOMAIN)
+
+            # population = culled_population + crossed_over_population
     except KeyboardInterrupt:
         pass
 
