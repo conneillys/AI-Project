@@ -184,14 +184,16 @@ def crossover_n_point(parents: Tuple[Individual, Individual], crossover_points: 
 
 def selection_tournament(_population: Population, tournament_size: int) -> Individual:
     """Tournament select an individual from the population."""
-    tournament_pool = list()
+    size = len(_population)-1
+    tournament_leader = size
 
+    # Cheeky optimization here, assuming the population is already sorted, the best scoring indiv
+    # will always be the smallest index
     for _ in range(tournament_size):
         # ? Should we allow duplicates in the selection pool?
-        tournament_pool.append(_population[randint(0, len(_population)-1)])
+        tournament_leader = min(tournament_leader, randint(0, size))
 
-    sort_population_by_score(tournament_pool)
-    return tournament_pool[0]
+    return _population[tournament_leader]
 
 
 def mutate_each(_indiv: Individual, percent_chance: float, domain: Domain):
@@ -203,20 +205,18 @@ def mutate_each(_indiv: Individual, percent_chance: float, domain: Domain):
 
 if __name__ == "__main__":
     POPULATION_SIZE = 500
-    GENERATION_LIMIT = 100000
-    SIZE = 100
+    GENERATION_LIMIT = 1000
+    SIZE = 50
     DOMAIN = list(range(1, SIZE+1))
-    SELECTION_PAIR_SIZE = 10
+    SELECTION_PAIR_SIZE = 100
     TOURNAMENT_SIZE = 50
-    MUTATION_CHANCE = 0.005
+    MUTATION_CHANCE = 0.01
 
     # Generation initial population
     population = generate_new_population(POPULATION_SIZE, DOMAIN, SIZE)
 
     # Historical Stats
     population_history = list()
-
-    # print_individual_score_mapping(population)
 
     try:
         for generation in tqdm(range(0, GENERATION_LIMIT + 1), unit='Generation', desc='Simulating'):
@@ -227,11 +227,11 @@ if __name__ == "__main__":
             population_history.append(population)
 
             children = list()
-            for selection_pair in range(SELECTION_PAIR_SIZE):
+            for _ in range(SELECTION_PAIR_SIZE):
                 left = selection_tournament(population, TOURNAMENT_SIZE)
                 right = selection_tournament(population, TOURNAMENT_SIZE)
 
-                new_left, new_right = crossover_n_point((left, right), 5)
+                new_left, new_right = crossover_n_point((left, right), 2)
 
                 mutate_each(new_left, MUTATION_CHANCE, DOMAIN)
                 mutate_each(new_right, MUTATION_CHANCE, DOMAIN)
@@ -239,17 +239,6 @@ if __name__ == "__main__":
                 children.append(new_left)
                 children.append(new_right)
             population = population + children
-            # selected_population = select_individuals(
-            #     culled_population, SELECTION_PAIR_SIZE)
-
-            # crossed_over_population = crossover_individuals(
-            #     selected_population)
-
-            # for each_indiv in crossed_over_population:
-            #     if chance(MUTATION_CHANCE):
-            #         mutate_individual(each_indiv, DOMAIN)
-
-            # population = culled_population + crossed_over_population
     except KeyboardInterrupt:
         pass
 
