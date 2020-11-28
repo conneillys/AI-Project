@@ -19,24 +19,26 @@ Problem:
 
 
 from itertools import islice
-from random import randint, uniform
-from typing import Any, List, Tuple
+from random import randint
+from typing import List, Tuple
 
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 
-from dsecffxiv.algo.individual import Individual
-from dsecffxiv.algo.population import Population
+from dsecffxiv.algo.types import Domain, Individual, Population
+from dsecffxiv.utils import chance
 
 
-def generate_new_individual(domain: List[Any], size: int) -> Individual:
+def generate_new_individual(domain: Domain, size: int) -> Individual:
+    """Generate a random new Individual of the give size and domain."""
     indiv = list()  # List of action from domain
     for _ in range(0, size):
         indiv.append(new_value_from_domain(domain))
     return Individual(indiv)
 
 
-def generate_new_population(population_size: int, domain: List[Any], size: int) -> Population:
+def generate_new_population(population_size: int, domain: Domain, size: int) -> Population:
+    """Generate a new population give a population size, domain, and individual size."""
     new_population = list()
     for _ in range(0, population_size):
         new_population.append(
@@ -44,22 +46,25 @@ def generate_new_population(population_size: int, domain: List[Any], size: int) 
     return new_population
 
 
-def new_value_from_domain(domain: List[Any]):
+def new_value_from_domain(domain: Domain):
+    """Generate a new key value randomly from the domain."""
     return domain[randint(0, len(domain)-1)]
 
 
-def mutate_individual(indiv: Individual, domain: List[Any]) -> None:
+def mutate_individual(indiv: Individual, domain: Domain) -> None:
+    """Give an individual, mutate one gene."""
     mutate_position = randint(0, len(indiv.value)-1)
     indiv.value[mutate_position] = new_value_from_domain(domain)
 
 
-def sort_population_by_score(population: Population) -> Population:
-    population.sort(key=score_individual, reverse=True)
-    return population
+def sort_population_by_score(input_population: Population) -> None:
+    """Sort the given population using the score, from highest to lowest."""
+    input_population.sort(key=score_individual, reverse=True)
 
 
-def select_individuals(population: Population, select_pairs: int) -> List[Tuple[Individual, Individual]]:
-    iterator = iter(population)
+def select_individuals(input_population: Population, select_pairs: int) -> List[Tuple[Individual, Individual]]:
+    """Given a population, return a subset of the population to be used for breeding."""
+    iterator = iter(input_population)
     result_collection = list()
     for _ in range(0, select_pairs):
         select_slice = islice(iterator, 2)
@@ -68,6 +73,7 @@ def select_individuals(population: Population, select_pairs: int) -> List[Tuple[
 
 
 def crossover_individuals(selection: List[Tuple[Individual, Individual]]) -> Population:
+    """Given a list of pairs of individuals, cross them over."""
     result_collection = list()
     for each in selection:
         new_left, new_right = crossover_individual_pairs(each[0], each[1])
@@ -77,6 +83,7 @@ def crossover_individuals(selection: List[Tuple[Individual, Individual]]) -> Pop
 
 
 def crossover_individual_pairs(left: Individual, right: Individual) -> Tuple[Individual, Individual]:
+    """Give two individuals, merge them into children."""
     left_slice_point = (len(left.value)//2)
     left_first = left.value[slice(0, left_slice_point)]
     left_last = left.value[slice(left_slice_point, len(left.value))]
@@ -91,6 +98,7 @@ def crossover_individual_pairs(left: Individual, right: Individual) -> Tuple[Ind
 
 
 def score_individual(indiv: Individual) -> int:
+    """Score a given individual."""
     max_score = 0
     # Select start values
     for each_start in range(0, len(indiv.value) - 1):
@@ -105,14 +113,85 @@ def score_individual(indiv: Individual) -> int:
     return max_score
 
 
-def print_individual_score_mapping(population: Population) -> None:
-    for each in population:
+def print_individual_score_mapping(input_population: Population) -> None:
+    """Given a population, score and print the pop->Score mapping."""
+    for each in input_population:
         print("{0} -> {1}".format(str(each), score_individual(each)))
 
 
-def cull_population(population: Population, size: int):
-    population = population[slice(0, size)]
-    return population
+def cull_population(input_population: Population, size: int):
+    """Slice the population down to a given size."""
+    new_population = input_population[slice(0, size)]
+    return new_population
+
+
+def show_stats(input_population_history: List[Population]) -> None:
+    """Show some stats about the population to the user."""
+    stat_min = list()
+    stat_max = list()
+
+    for generation_pop in tqdm(input_population_history, desc='Generating Stats'):
+        stat_min.append(score_individual(generation_pop[-1]))
+        stat_max.append(score_individual(generation_pop[0]))
+
+    stat_generation_max = list(range(0, len(stat_max)))
+    stat_generation_min = list(range(0, len(stat_min)))
+
+    plt.plot(stat_generation_max, stat_max, label='Max Score')
+    plt.plot(stat_generation_min, stat_min, label='Min Score')
+
+    plt.xlabel('Generation')
+    plt.ylabel('Score')
+
+    plt.title('Min/Max Score vs Generation')
+    plt.legend()
+    plt.show()
+
+
+def print_leaderboard(leaderboard_pop: Population, size=5) -> None:
+    """Print top n scoring individuals from the population."""
+    print_individual_score_mapping(leaderboard_pop[slice(0, size)])
+
+
+def crossover_n_point(parents: Tuple[Individual, Individual], crossover_points: int) -> Tuple[Individual, Individual]:
+    """Splice together two parents to make two children using n point crossover."""
+    left, right = parents
+    size = len(left.value)
+    points = list()
+    for _ in range(crossover_points):
+        new_point = randint(0, size)
+        while new_point in points:
+            new_point = randint(0, size)
+        points.append(new_point)
+    points.sort()
+
+    new_left, new_right = list(), list()
+    pick_direction = False
+
+    for i in range(size):
+        if i in points:
+            pick_direction = not pick_direction
+
+        if pick_direction:
+            new_left.append(left.value[i])
+            new_right.append(right.value[i])
+        else:
+            new_left.append(right.value[i])
+            new_right.append(left.value[i])
+
+    return (Individual(new_left), Individual(new_right))
+
+
+def selection_tournament(_population: Population, tournament_size: int) -> Individual:
+    """Tournament select an individual from the population."""
+    tournament_pool = list()
+
+    for _ in range(tournament_size):
+        # ? Should we allow duplicates in the selection pool?
+        tournament_pool.append(_population[randint(0, len(_population))])
+
+    sort_population_by_score(tournament_pool)
+    return tournament_pool[0]
 
 
 if __name__ == "__main__":
@@ -133,45 +212,28 @@ if __name__ == "__main__":
 
     try:
         for generation in tqdm(range(0, GENERATION_LIMIT + 1), unit='Generation', desc='Simulating'):
-            sorted_population = sort_population_by_score(population)
+            sort_population_by_score(population)
             culled_population = cull_population(
-                sorted_population, POPULATION_SIZE)
+                population, POPULATION_SIZE)
 
             population_history.append(culled_population)
 
             selected_population = select_individuals(
                 culled_population, SELECTION_PAIR_SIZE)
-            # for each in selected_population:
-            #     print("Selected: {0} {1}".format(str(each[0]), str(each[1])))
-            # print("GEN: {0}".format(generation))
-            # print_individual_score_mapping(sorted_population[slice(0, 5)])
+
             crossed_over_population = crossover_individuals(
                 selected_population)
-            # for each in crossed_over_population:
-            # print("Crossover: {0}".format(str(each)))
 
             for each_indiv in crossed_over_population:
-                if uniform(0, 1) < MUTATION_CHANCE:
-                    # print("Mutated: {0}".format(str(each)))
+                if chance(MUTATION_CHANCE):
                     mutate_individual(each_indiv, DOMAIN)
-                    # print("Mutated Into: {0}".format(str(each)))
 
             population = culled_population + crossed_over_population
     except KeyboardInterrupt:
         pass
 
-    stat_min = list()
-    stat_max = list()
+    # Show stats at the end of a run
+    show_stats(population_history)
 
-    for generation_pop in tqdm(population_history, desc='Generating Stats'):
-        stat_min.append(score_individual(generation_pop[-1]))
-        stat_max.append(score_individual(generation_pop[0]))
-
-    stat_generation_max = list(range(0, len(stat_max)))
-    stat_generation_min = list(range(0, len(stat_min)))
-
-    plt.plot(stat_generation_max, stat_max)
-    plt.plot(stat_generation_min, stat_min)
-    plt.show()
     # for each in crossed_over_population:
     #     print("Crossover: {0}".format(str(each)))

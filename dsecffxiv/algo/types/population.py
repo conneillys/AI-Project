@@ -6,6 +6,6 @@ Population.
 
 from typing import List
 
-from dsecffxiv.algo.individual import Individual
+from dsecffxiv.algo.types import Individual
 
 Population = List[Individual]
