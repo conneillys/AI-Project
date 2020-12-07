@@ -29,16 +29,16 @@ def show_stats(input_population_history: List[Population], score_function: Calla
     stat_generation_max = list(range(0, len(stat_max)))
     stat_generation_avg = list(range(0, len(stat_avg)))
 
-    plt.plot(stat_generation_min, stat_min, label='Min Score')
-    plt.plot(stat_generation_max, stat_max, label='Max Score')
-    plt.plot(stat_generation_avg, stat_avg, label='Avg Score')
+    plt.plot(stat_generation_min, stat_min, '-', label='Min Score')
+    plt.plot(stat_generation_max, stat_max, '-.', label='Max Score')
+    plt.plot(stat_generation_avg, stat_avg, ':', label='Avg Score')
 
     plt.xlabel('Generation')
     plt.ylabel('Score')
 
     plt.title('Min/Max/Avg Score vs Generation')
     plt.legend()
-    plt.show()
+    # plt.show()
 
 
 def print_individual_score_mapping(_population: Population, _scoring_function: Score) -> None:
