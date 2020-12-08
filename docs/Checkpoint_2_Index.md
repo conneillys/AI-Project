@@ -11,7 +11,7 @@ Initializes variables to the values they would have at the start of a craft, as 
 ### Carlton Perkins: dsecffxiv/[algo/tests] directory
 
 - gen_alg_runner.py: A resumable cli/REPL interface to monitor and run the genetic algorithm.
-- multi_runner.py: A single-shot exe that will run a bunch of GA's with the given parameters in multiprocess mode.
+- multi_runner.py: A single-shot exe that will run a bunch of GA's with the given parameters in multiprocessing mode.
 - algo/crossover.py: Interface / methods for crossing over individuals.
 - algo/generation.py: Helper methods for generation of generations.
 - algo/genetic_algorithm.py: Class interface for the complete genetic algorithm.
