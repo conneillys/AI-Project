@@ -1,5 +1,7 @@
+"""Executable to run many GA's a the same time a report result."""
+
 from concurrent.futures import ProcessPoolExecutor, as_completed
-from typing import Callable, Dict, List
+from typing import Any, Callable, Dict, List
 
 from matplotlib import pyplot as plt
 from tqdm import tqdm
@@ -17,7 +19,7 @@ WORKER_LIMIT = 32
 
 def assemble_config() -> Dict:
     """Construct a config dict from the member values."""
-    config = dict()
+    config: Dict[Any, Any] = dict()
     config['population_size'] = 500
     config['generation_limit'] = 1000
     config['individual_size'] = 50
@@ -89,9 +91,9 @@ if __name__ == '__main__':
             do_stat_math, pop_history_collection)
         for r in tqdm(res):
             (min_g, min_v), (max_g, max_v), (avg_g, avg_v) = r
-            plt.plot(min_g, min_v, label='Min Score')
-            plt.plot(max_g, max_v, label='Max Score')
-            plt.plot(avg_g, avg_v, label='Avg Score')
+            plt.plot(min_g, min_v, '-', label='Min Score')
+            plt.plot(max_g, max_v, '-.', label='Max Score')
+            plt.plot(avg_g, avg_v, ':', label='Avg Score')
 
     plt.xlabel('Generation')
     plt.ylabel('Score')

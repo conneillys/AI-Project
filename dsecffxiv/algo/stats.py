@@ -38,7 +38,7 @@ def show_stats(input_population_history: List[Population], score_function: Calla
 
     plt.title('Min/Max/Avg Score vs Generation')
     plt.legend()
-    # plt.show()
+    plt.show()
 
 
 def print_individual_score_mapping(_population: Population, _scoring_function: Score) -> None:
