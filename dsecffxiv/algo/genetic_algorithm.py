@@ -60,7 +60,10 @@ class GeneticAlgorithm():
 
             children.append(new_left)
             children.append(new_right)
-        self.population = self.population + children
+        if self.config['replace_pop']:
+            self.population = children
+        else:
+            self.population = self.population + children
 
 
 class ThreadedGeneticAlgorithm(GeneticAlgorithm):
@@ -109,7 +112,10 @@ class ThreadedGeneticAlgorithm(GeneticAlgorithm):
             new_left, new_right = future.result()
             children.append(new_left)
             children.append(new_right)
-        self.population = self.population + children
+        if self.config['replace_pop']:
+            self.population = children
+        else:
+            self.population = self.population + children
 
         # Score population
         self.population.sort(key=self.score_func, reverse=True)
