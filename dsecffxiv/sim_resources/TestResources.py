@@ -1,25 +1,31 @@
 import random
+from math import ceil
 import dsecffxiv.sim_resources.ActionClasses as action
 
 
 # Contains support functions for generating test environment and handling action selection.
 
-# Arrays containing actions, organized by availability based on state
+# Arrays containing actions, organized by availability based on state and sorted by CP cost in each array
 first_step_actions = [action.MuscleMemory, action.Reflect]
-good_condition_actions = [action.BasicSynthesis, action.RapidSynthesis, action.CarefulSynthesis, action.Groundwork,
-                          action.IntensiveSynthesis, action.BrandoftheElements, action.NameoftheElements,
-                          action.Veneration, action.FinalAppraisal, action.DelicateSynthesis, action.BasicTouch,
-                          action.HastyTouch, action.StandardTouch, action.PreparatoryTouch, action.PreciseTouch,
-                          action.PatientTouch, action.PrudentTouch, action.ByregotsBlessing, action.GreatStrides,
-                          action.Innovation, action.InnerQuiet, action.Observe, action.FocusedSynthesis,
-                          action.FocusedTouch, action.TricksoftheTrade, action.WasteNot, action.WasteNot2,
-                          action.MastersMend, action.Manipulation]
-actions = [action.BasicSynthesis, action.RapidSynthesis, action.CarefulSynthesis, action.Groundwork,
-           action.BrandoftheElements, action.NameoftheElements, action.Veneration, action.FinalAppraisal,
-           action.DelicateSynthesis, action.BasicTouch, action.HastyTouch, action.StandardTouch,
-           action.PreparatoryTouch, action.PatientTouch, action.PrudentTouch, action.ByregotsBlessing,
-           action.GreatStrides, action.Innovation, action.InnerQuiet, action.Observe, action.FocusedSynthesis,
-           action.FocusedTouch, action.WasteNot, action.WasteNot2, action.MastersMend, action.Manipulation]
+good_condition_actions = [action.TricksoftheTrade, action.RapidSynthesis, action.HastyTouch, action.BasicSynthesis,
+                          action.FocusedSynthesis, action.IntensiveSynthesis, action.PatientTouch,
+                          action.BrandoftheElements, action.CarefulSynthesis, action.Observe, action.Veneration,
+                          action.Innovation, action.BasicTouch, action.PreciseTouch, action.FocusedTouch,
+                          action.InnerQuiet, action.Groundwork, action.ByregotsBlessing, action.PrudentTouch,
+                          action.NameoftheElements, action.DelicateSynthesis, action.StandardTouch, action.GreatStrides,
+                          action.PreparatoryTouch, action.WasteNot, action.MastersMend, action.Manipulation,
+                          action.WasteNot2, action.FinalAppraisal]
+actions = [action.RapidSynthesis, action.HastyTouch, action.BasicSynthesis, action.FocusedSynthesis,
+           action.PatientTouch, action.BrandoftheElements, action.CarefulSynthesis, action.Observe, action.Veneration,
+           action.Innovation, action.BasicTouch, action.FocusedTouch, action.InnerQuiet, action.Groundwork,
+           action.ByregotsBlessing, action.PrudentTouch, action.NameoftheElements, action.DelicateSynthesis,
+           action.StandardTouch, action.GreatStrides, action.PreparatoryTouch, action.WasteNot, action.MastersMend,
+           action.Manipulation, action.WasteNot2, action.FinalAppraisal]
+low_durability_actions = [action.MastersMend, action.Manipulation]
+observe_actions = [action.FocusedSynthesis, action.FocusedTouch]
+
+MAX_CP = 572
+MAX_DURABILITY = 50
 
 
 def generate_material_conditions(sequence_length):
@@ -49,21 +55,41 @@ def generate_success_values(sequence_length):
     return values
 
 
-def get_random_action(step_number, material_condition, waste_not):
-    # Gets a random valid action based on the state.
-    # (Will add CP checks if necessary, but that would be a lot of extra calculation.)
+def get_random_action(step_number, material_condition, waste_not, inner_quiet, name_elements, veneration, great_strides,
+                      innovation, manipulation, cp, durability):
+    # Gets a random valid action based on the state. Basically all heuristics are handled here.
+    remaining_cp_ratio = cp / MAX_CP
     if step_number == 0:  # Opening actions should always be used and can only be used now
         return first_step_actions[random.randint(0, 1)]
-    elif material_condition == "good":  # Good condition has exclusive actions
-        i = random.randrange(0, len(good_condition_actions))
-        # Prudent Touch cannot be used while Waste Not buff is active
-        if waste_not > 0 and i == good_condition_actions.index(action.PrudentTouch):
-            while i == good_condition_actions.index(action.PrudentTouch):
-                i = random.randrange(0, len(good_condition_actions))
-        return good_condition_actions[random.randrange(0, len(good_condition_actions))]
-    i = random.randrange(0, len(actions))
-    # Prudent Touch cannot be used while Waste Not buff is active
-    if waste_not > 0 and i == actions.index(action.PrudentTouch):
-        while i == actions.index(action.PrudentTouch):
-            i = random.randrange(0, len(actions))
-    return actions[random.randrange(0, len(actions))]
+    elif durability <= 25:
+        i = random.randrange(0, 1)
+        if low_durability_actions[i].CP_COST > cp:
+            i = abs(i - 1)  # gives 0 if it was 1, 1 if it was 0
+            if low_durability_actions[i].CP_COST <= cp:
+                return low_durability_actions[i]  # if cp is too low for either, move on
+    if material_condition == "good":  # Good condition has exclusive actions
+        # low CP ratio will result in lower CP skills being chosen
+        i = random.randrange(0, ceil(len(good_condition_actions) * remaining_cp_ratio))
+        # Prudent Touch cannot be used while Waste Not buff is active. Inner Quiet cannot be used while user has stacks.
+        # Other buffs should not be used while they are already up.
+        while (waste_not > 0 and i == good_condition_actions.index(action.PrudentTouch)) or \
+                (inner_quiet and i == good_condition_actions.index(action.InnerQuiet)) or \
+                (name_elements > 0 and i == good_condition_actions.index(action.NameoftheElements)) or \
+                (veneration > 0 and i == good_condition_actions.index(action.Veneration)) or \
+                (great_strides > 0 and i == good_condition_actions.index(action.GreatStrides)) or \
+                (innovation > 0 and i == good_condition_actions.index(action.Innovation)) or \
+                (manipulation > 0 and i == good_condition_actions.index(action.Manipulation)):
+            i = random.randrange(0, ceil(len(good_condition_actions) * remaining_cp_ratio))
+        return good_condition_actions[i]
+    i = random.randrange(0, ceil(len(actions) * remaining_cp_ratio))
+    # Prudent Touch cannot be used while Waste Not buff is active. Inner Quiet cannot be used while user has stacks.
+    # Other buffs should not be used while they are already up.
+    while (waste_not > 0 and i == actions.index(action.PrudentTouch)) or \
+            (inner_quiet and i == actions.index(action.InnerQuiet)) or \
+            (name_elements > 0 and i == actions.index(action.NameoftheElements)) or \
+            (veneration > 0 and i == actions.index(action.Veneration)) or \
+            (great_strides > 0 and i == actions.index(action.GreatStrides)) or \
+            (innovation > 0 and i == actions.index(action.Innovation)) or \
+            (manipulation > 0 and i == actions.index(action.Manipulation)):
+        i = random.randrange(0, ceil(len(actions) * remaining_cp_ratio))
+    return actions[i]
