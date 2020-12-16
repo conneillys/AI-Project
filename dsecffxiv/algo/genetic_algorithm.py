@@ -26,7 +26,8 @@ class GeneticAlgorithm():
         self.crossover_func: Crossover = Default_Crossover
         self.score_func: Score = Default_Score
 
-        self.material_conditions = generate_material_conditions(config['population_size'])
+        self.material_conditions = generate_material_conditions(
+            config['population_size'])
         self.success_rolls = generate_success_values(config['population_size'])
 
         self.population: Union[Population, None] = None
@@ -57,7 +58,8 @@ class GeneticAlgorithm():
             right = self.selection_func(
                 self.population, self.config['tournament_size'])
 
-            new_left, new_right = self.crossover_func((left, right), 2)
+            new_left, new_right = self.crossover_func(
+                (left, right), self.config['crossover_points'])
 
             self.mutation_func(
                 new_left, self.config['mutation_chance'], self.config['domain'])
@@ -101,7 +103,8 @@ class ThreadedGeneticAlgorithm(GeneticAlgorithm):
             right = self.selection_func(
                 self.population, self.config['tournament_size'])
 
-            new_left, new_right = self.crossover_func((left, right), 2)
+            new_left, new_right = self.crossover_func(
+                (left, right), self.config['crossover_points'])
 
             self.mutation_func(
                 new_left, self.config['mutation_chance'], self.config['domain'])
