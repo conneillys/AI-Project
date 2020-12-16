@@ -24,11 +24,12 @@ def assemble_config() -> Dict:
     config['population_size'] = 500
     config['generation_limit'] = 1000
     config['individual_size'] = 50
-    config['selection_size'] = 100
+    config['selection_size'] = 250
     config['tournament_size'] = 50
     config['mutation_chance'] = 0.01
     config['domain'] = list(range(1, 50 + 1))
-    config['replace_pop'] = False
+    config['replace_pop'] = True
+    config['crossover_points'] = 25
 
     return config
 
@@ -106,7 +107,7 @@ if __name__ == '__main__':
                 max_pop = max(max_pop, m_pop, key=Default_Score)
 
             # plt.plot(min_g, min_v, '-', label='Min Score')
-            plt.plot(max_g, max_v, '-.', label='Max Score')
+            plt.plot(max_g, max_v, '-', label='Max Score')
             # plt.plot(avg_g, avg_v, ':', label='Avg Score')
 
     print("{0} => {1}".format(str(max_pop), Default_Score(max_pop)))
@@ -114,6 +115,6 @@ if __name__ == '__main__':
     plt.xlabel('Generation')
     plt.ylabel('Score')
 
-    plt.title('Min/Max/Avg Score vs Generation')
+    plt.title('Max Score vs Generation')
     # plt.legend()
     plt.show()

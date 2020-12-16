@@ -42,6 +42,7 @@ class GenAlgShell(cmd2.Cmd):
         self.mutation_chance = 0.01
         self.auto_domain = True
         self.replace_pop = False
+        self.crossover_points = 5
 
         self.add_settable(cmd2.Settable('population_size', int,
                                         'Number of individuals in the population', onchange_cb=self.bind_config))
@@ -58,7 +59,9 @@ class GenAlgShell(cmd2.Cmd):
         self.add_settable(cmd2.Settable('auto_domain',
                                         float, 'Should we use the size to generate the domain', onchange_cb=self.bind_config))
         self.add_settable(cmd2.Settable('replace_pop',
-                                        float, 'Should we replace the current population all with children', onchange_cb=self.bind_config))
+                                        bool, 'Should we replace the current population all with children', onchange_cb=self.bind_config))
+        self.add_settable(cmd2.Settable('crossover_points',
+                                        int, 'How many points to cross over the parents', onchange_cb=self.bind_config))
 
         self.genetic_algorithm: GeneticAlgorithm = None
         self.population_history: List[Population] = list()
@@ -74,6 +77,7 @@ class GenAlgShell(cmd2.Cmd):
         config['tournament_size'] = self.tournament_size
         config['mutation_chance'] = self.mutation_chance
         config['replace_pop'] = self.replace_pop
+        config['crossover_points'] = self.crossover_points
         config['domain'] = list(
             range(1, self.individual_size + 1)) if self.auto_domain else None  # make domain more generic
 
