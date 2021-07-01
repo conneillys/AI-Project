@@ -2,8 +2,10 @@
 
 ## Authors
 
-- [Shannon Conneilly](mailto:Shannon_Conneilly@student.uml.edu)
+- [Shannon Conneilly](mailto:shannon.conneilly@gmail.com)
 - [Carlton Perkins](mailto:Carlton_Perkins@student.uml.edu)
+
+I've forked this repository because I'd like to keep working on it for fun in the future, and because I feel like it's a good indicator of my abilities. I handled the simulation and evaluation work, as I was the partner knowledgeable about what we were simulating and evaluating in the first place.
 
 ## Structure
 
